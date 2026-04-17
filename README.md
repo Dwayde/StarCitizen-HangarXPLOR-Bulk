@@ -28,5 +28,6 @@ This is modified version by /u/Dwayde_Wade. If you have any problems/issues plea
 
 * UI and design fixes (Melting window, melting results)
 * Fully functional bulk gifting with UI
-
+  
+Referral code in case you need that for registration: STAR-V5T3-P2HR
 If you like extension and want support me, here is donation link: https://www.paypal.com/donate/?hosted_button_id=FE4Z7JYPRN2DN
