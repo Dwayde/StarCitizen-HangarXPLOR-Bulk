@@ -22,7 +22,9 @@ This plugin will only work if [HangarXPLOR](https://github.com/Dwayde/StarCitize
 
 # Modified
 
-This is modified version by /u/Dwayde_Wade. If you have any problems/issues please feel free to contact me. Also you can ask for new features.
+* This is modified version by /u/Dwayde_Wade. 
+* If you have any problems/issues please feel free to contact me. (Discord - dwaydewade, reddit - /u/Dwayde_Wade)
+* Also you can ask for new features.
 
 # Changes
 
