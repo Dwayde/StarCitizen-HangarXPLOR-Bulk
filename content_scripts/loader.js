@@ -18,7 +18,7 @@
   
   for (var i = 0, j = styles.length; i < j; i++) {
     var styleURL = chrome.runtime.getURL(styles[i]);
-    console.log('Loading', styleURL);
+    console.log('Loading style', styleURL);
     var style = document.createElement('link');
     style.id = namespace + '-css-' + i;
     style.type = 'text/css';
@@ -29,7 +29,7 @@
   
   for (var i = 0, j = scripts.length; i < j; i++) {
     var scriptURL = chrome.runtime.getURL(scripts[i]);
-    console.log('Loading', scriptURL);
+    console.log('Loading script', scriptURL);
     var script = document.createElement('script');
     script.id = namespace + '-js-' + i;
     script.type = 'text/javascript';
@@ -39,7 +39,7 @@
   
   for (var i = 0, j = templates.length; i < j; i++) {
     var templateURL = chrome.runtime.getURL(templates[i].url);
-    console.log('Loading', templateURL);
+    console.log('Loading template', templateURL);
     var script = document.createElement('script');
     script.id = templates[i].id;
     script.type = 'text/x-jsmart-tmpl';
