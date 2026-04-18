@@ -316,3 +316,7 @@ input:checked + .slider:before {
 .shadow-button {
   cursor: pointer;
 }
+
+.shader {
+  opacity: 1 !important;
+}
