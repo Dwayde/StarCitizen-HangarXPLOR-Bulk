@@ -5,6 +5,126 @@ var auto_refresh = true;
 
 HangarXPLOR.BulkEnabled = true;
 
+// Select All / Unselect All buttons
+(function() {
+    function addButtons() {
+        var $csv = $('.exportbuttoncsv');
+        if (!$csv.length) {
+            setTimeout(addButtons, 300);
+            return;
+        }
+
+        function makeButton(text, fn) {
+            return $('<a class="shadow-button trans-02s trans-color" style="cursor:pointer;">' +
+                '<span class="label js-label trans-02s">' + text + '</span>' +
+                '<span class="icon trans-02s"></span>' +
+                '<span class="left-section"></span>' +
+                '<span class="right-section"></span>' +
+                '</a>').on('click', fn);
+        }
+
+        var $visible = function() { return HangarXPLOR.$list.children('li'); };
+
+        var $selectAll = makeButton('Select All Pledges', function() {
+            $visible().each(function() {
+                if (this.filters) {
+                    this.filters.is_selected = true;
+                    $('.row', this).addClass('js-selected');
+                }
+            });
+            HangarXPLOR.RefreshBulkUI();
+        });
+
+        var $unselectAll = makeButton('Unselect All Pledges', function() {
+            $visible().each(function() {
+                if (this.filters) {
+                    this.filters.is_selected = false;
+                    $('.row', this).removeClass('js-selected');
+                }
+            });
+            HangarXPLOR.RefreshBulkUI();
+        });
+
+        $csv.after($('<br>').add($('<br>')).add($selectAll).add($('<br>')).add($unselectAll));
+        $unselectAll.hide();
+
+        function updateButtonVisibility() {
+            var hasSelected = false, hasUnselected = false;
+            $visible().each(function() {
+                if (this.filters) {
+                    if (this.filters.is_selected) hasSelected = true;
+                    else hasUnselected = true;
+                }
+            });
+            $selectAll.toggle(hasUnselected);
+            $unselectAll.toggle(hasSelected);
+        }
+
+        var origRefresh = HangarXPLOR.RefreshBulkUI;
+        HangarXPLOR.RefreshBulkUI = function() {
+            origRefresh.call(this);
+            updateButtonVisibility();
+        };
+
+        var origRender = HangarXPLOR.Render;
+        if (origRender) {
+            HangarXPLOR.Render = function() {
+                origRender.apply(this, arguments);
+                updateButtonVisibility();
+            };
+        }
+    }
+
+    setTimeout(addButtons, 500);
+})();
+
+// Shift-click range selection support
+(function() {
+    function setupShiftClick() {
+        if (!HangarXPLOR.$list) {
+            setTimeout(setupShiftClick, 100);
+            return;
+        }
+
+        var $listEl = HangarXPLOR.$list;
+        $listEl[0].addEventListener('click', function(e) {
+            if (!e.shiftKey) return;
+
+            var li = e.target.closest('li');
+            if (!li) return;
+
+            var $visible = $listEl.children('li');
+            var currentIdx = $visible.index(li);
+            if (currentIdx < 0) return;
+
+            var startIdx = -1;
+            $visible.each(function(idx) {
+                if (this.filters && this.filters.is_selected) {
+                    startIdx = idx;
+                    return false;
+                }
+            });
+            if (startIdx === -1) startIdx = 0;
+
+            var min = Math.min(startIdx, currentIdx);
+            var max = Math.max(startIdx, currentIdx);
+            if (currentIdx === 0) max = $visible.length - 1;
+            var select = li.filters && !li.filters.is_selected;
+            for (var i = min; i <= max; i++) {
+                var item = $visible[i];
+                item.filters.is_selected = select;
+                $('.row', item).toggleClass('js-selected', select);
+            }
+            HangarXPLOR.RefreshBulkUI();
+
+            e.stopPropagation();
+        }, true);
+    }
+
+    setupShiftClick();
+})();
+
+
 HangarXPLOR._callbacks = HangarXPLOR._callbacks || {};
 
 HangarXPLOR._callbacks.Gift = function (e) {
