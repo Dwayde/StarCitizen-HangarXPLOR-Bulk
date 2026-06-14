@@ -14,6 +14,10 @@ HangarXPLOR.BulkEnabled = true;
             return;
         }
 
+        if ($csv.siblings('.shadow-button').filter(function() {
+            return $(this).text().includes('Select All') || $(this).text().includes('Unselect All');
+        }).length) return;
+
         function makeButton(text, fn) {
             return $('<a class="shadow-button trans-02s trans-color" style="cursor:pointer;">' +
                 '<span class="label js-label trans-02s">' + text + '</span>' +
