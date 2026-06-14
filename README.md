@@ -30,6 +30,8 @@ This plugin will only work if [HangarXPLOR](https://github.com/Dwayde/StarCitize
 
 * UI and design fixes (Melting window, melting results)
 * Fully functional bulk gifting with UI
+* Multiple select using Shift-Click
+* Select/Unselect all button
   
 # Support
 
